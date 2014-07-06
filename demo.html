@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Aprendo</title>
+	<script type="text/javascript" src="angular.js"></script>
+</head>
+<body>
+	<!-- <div ng-app>{{20%6}}</div>
+	<div style="background-color:#aaa"><img src="arbol-head.png"></div>
+	<div style="background-color:#aaa"><img src="arbol-head-2.png"></div> -->
+	<script type="text/javascript" src="node_modules/moment/min/moment.min.js"></script>
+	<script type="text/javascript">
+
+		var obj={
+			netDate:'/Date(1231231231231)/',
+			nullDate:null,
+			str1Date:'h',
+			numbreDate:10
+		};
+
+		function sub(str){
+			if(str!==null&&isNaN(str)){
+			// if(str!==null){
+				// console.log('xxx',str.substring(0,5));
+				return str.substring(0,5);
+			}else{
+				// console.log('yyy',str)
+			}
+		}
+
+		function validarCorreo(str){
+			var regex=/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)/;
+			if(!(regex.test(str))){ 
+				// console.log('no es correo');
+				return false; 
+			}else{
+				// console.log('es correo');
+				return true;
+			}
+		}
+
+		function validarNetFecha(str){
+			var regex=/^\/?Date\((\-?\d+)/i;
+			if(regex.test(str)){
+				console.log('si es net fecha');
+				return true;
+			}else{
+				console.log('no es net fecha');
+				return false;
+			}
+		};
+
+		var netDate='/Date(1231231231231)/';
+		var nullDate=null;
+		var str1Date='h';
+		var numberDate=7;
+
+		var a=moment(netDate).isValid();
+		var b=moment(nullDate).isValid();
+		var c=moment(str1Date).isValid();
+		var d=moment(numberDate).isValid();
+
+		// console.log(a,'aaa');
+		// console.log(b,'bbb');
+		// console.log(c,'ccc');
+		// console.log(d,'ddd');
+
+		function convertirFecha(str){
+			if(moment(str).isValid()&&isNaN(str)){
+				// console.log('pasa');
+			}else{
+				// console.log('no pasa');
+			}
+		}
+
+		validarNetFecha(netDate);
+		validarNetFecha(nullDate);
+		validarNetFecha(str1Date);
+		validarNetFecha(numberDate);
+
+		convertirFecha(netDate);
+		convertirFecha(nullDate);
+		convertirFecha(str1Date);
+		convertirFecha(numberDate);
+
+		sub(netDate);
+		sub(nullDate);
+		sub(str1Date);
+		sub(numberDate);
+
+		validarCorreo('tres.eme.ce');
+		validarCorreo('tres.eme.ce@');
+		validarCorreo('tres.eme.ce@gmail');
+		validarCorreo('tres.eme.ce@gmail.com');
+
+
+	</script>
+</body>
+</html>
