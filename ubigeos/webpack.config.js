@@ -5,8 +5,8 @@ const localport = 8080;
 
 module.exports = {
   entry: [
-    'webpack-dev-server/client?http://localhost:' + localport,
-    'webpack/hot/only-dev-server',
+    // 'webpack-dev-server/client?http://localhost:' + localport,
+    // 'webpack/hot/only-dev-server',
     './index.js'
   ],
   output: { 
