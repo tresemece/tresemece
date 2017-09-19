@@ -22,7 +22,7 @@ module.exports = {
         inject: false,
         template: 'index.html'
       }),
-      new webpack.HotModuleReplacementPlugin(),
+      //new webpack.HotModuleReplacementPlugin(),
     ],
     loaders: [
       {
