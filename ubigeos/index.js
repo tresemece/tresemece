@@ -2,20 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { toLines, removeEmptyLines, replaceQuotes } from './helpers';
 
-class Departamentos extends Component {
-  
-  // state = {
-  //   departaments: [
-  //     {
-  //       code: '01',
-  //       name: 'Lima'
-  //     },
-  //     {
-  //       code: '02',
-  //       name: 'Arequipa'
-  //     }
-  //   ]
-  // };
+let fileChange = null;
+let departaments = [];
+
+class Ubigeo extends Component {
 
   constructor(props){
     super(props);
@@ -46,48 +36,6 @@ class Departamentos extends Component {
             }
           </tbody>
         </table>
-      </div>
-    );
-  }
-}
-
-class Provincias extends Component {
-  
-  // state = {
-  //   departaments: [
-  //     {
-  //       code: '01',
-  //       name: 'Lima', 
-  //       provinces: [
-  //         {
-  //           code: '51',
-  //           name: 'Barranca',
-  //           districts: []
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       code: '02',
-  //       name: 'Arequipa',
-  //       provinces: [
-  //         {
-  //           code: '64',
-  //           name: 'Caylloma',
-  //           districts: []
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // };
-
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    const { departaments } = this.props;
-    return(
-      <div>
         <h4>PROVINCIA</h4>
         <table id="provinces">
           <thead>
@@ -109,72 +57,6 @@ class Provincias extends Component {
             }
           </tbody>
         </table>
-      </div>
-    );
-  }
-}
-
-class Distritos extends Component {
-  
-  // state = {
-  //   departaments: [
-  //     {
-  //       code: '01',
-  //       name: 'Lima', 
-  //       provinces: [
-  //         {
-  //           code: '51',
-  //           name: 'Barranca',
-  //           districts: []
-  //         },
-  //         {
-  //           code: '50',
-  //           name: 'Lima',
-  //           districts: [
-  //             {
-  //               code: '203',
-  //               name: 'San Isidro'
-  //             },
-  //             {
-  //               code: '202',
-  //               name: 'La Molina'
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       code: '02',
-  //       name: 'Arequipa',
-  //       provinces: [
-  //         {
-  //           code: '64',
-  //           name: 'Caylloma',
-  //           districts: []
-  //         },
-  //         {
-  //           code: '63',
-  //           name: 'Arequipa',
-  //           districts: [
-  //             {
-  //               code: '267',
-  //               name: 'Cercado'
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // };
-
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    const { departaments } = this.props;
-    return(
-      <div>
         <h4>DISTRITO</h4>
         <table id="districts">
           <thead>
@@ -201,9 +83,7 @@ class Distritos extends Component {
   }
 }
 
-let departaments = [];
-
-class Ubigeo extends Component {
+class App extends Component {
   
   state = {
     departaments: []
@@ -271,51 +151,55 @@ class Ubigeo extends Component {
     }
   }
 
-
   handleChange(selectorFiles){
-    console.log('handleChange', selectorFiles);
+    // console.log('handleChange', selectorFiles);
     let file = selectorFiles[0];
 		let reader = new FileReader();
 		reader.onload = (event) =>{
       let txt = replaceQuotes(event.target.result);
-      console.log('txt', txt);
       let lines = toLines(txt);
-      console.log('lines', lines);
       let clean = removeEmptyLines(lines);
-      console.log('clean', clean);
       this.generate(clean);
 		};
 		reader.readAsText(file);
   }
 
-  clickGenerate(){
-    console.log('click generate');  
+  handleUpload = () => {
+    fileChange.click();
   }
+
+  // clickGenerate(){
+  //   console.log('click generate');  
+  // }
 
   render(){
     const { departaments } = this.state;
     return(
-      <div>
-        <div>
+      <div className="row">
+        <div className="small-10 small-centered columns">
+          <label htmlFor="file" className="button" onClick={ this.handleUpload }>
+            Cargar archivo
+          </label>
           <input
-              type="file"
-              ref="image"
-              id="upload-file"
-              onChange={ (e) => this.handleChange(e.target.files) }
+            type="file"
+            className="show-for-sr"
+            id="upload-file"
+            onChange={ (e) => this.handleChange(e.target.files) }
+            ref={ (input) => { fileChange = input; }}
           />
         </div>
-        <div>
-          <button type="button" onClick={this.clickGenerate}>Generar</button>
-        </div>
-        <Departamentos departaments={departaments}/>
-        <Provincias departaments={departaments}/>
-        <Distritos departaments={departaments}/> 
+        
+        <Ubigeo departaments={departaments}/> 
       </div>
     );
   }
 }
 
 ReactDOM.render(
-  <Ubigeo></Ubigeo>,
+  <App/>,
   document.getElementById('app')
 );
+
+// <div>
+//  <button type="button" onClick={this.clickGenerate}>Generar</button>
+// </div>
